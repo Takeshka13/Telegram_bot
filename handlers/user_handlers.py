@@ -2,9 +2,9 @@ from aiogram import F, Router
 from aiogram.filters import Command, CommandStart
 from aiogram.types import Message
 
-from keyboards.keyboards import menu_kb, game_kb, yes_no_kb
+from keyboards.keyboards import menu_kb, game_kb, yes_no_kb, filter_kb
 from lexicon.lexicon_ru import LEXICON_RU
-from services.services import get_bot_choice, get_winner, get_random_cat, get_random_fox
+from services.services import get_bot_choice, get_winner, get_random_cat, get_random_fox, get_random_anime
 
 
 router = Router()
@@ -36,6 +36,23 @@ async def process_no_answer(message: Message):
 @router.message(F.text == LEXICON_RU['game'])
 async def process_start_command(message: Message):
     await message.answer(text=LEXICON_RU['/game'], reply_markup=yes_no_kb)
+
+@router.message(F.text == LEXICON_RU['anime'])
+async def process_no_answer(message: Message):
+    await message.answer_animation(get_random_anime())
+
+#@router.message(F.text.in_([LEXICON_RU['Yes'],
+#                           LEXICON_RU['No'],
+#                           LEXICON_RU['Love'],
+#                           LEXICON_RU['Airkiss'],
+#                           LEXICON_RU['Laugh'],
+#                           LEXICON_RU['Evillaugh'],
+#                           LEXICON_RU['Sorry'],
+#                           LEXICON_RU['Sleep'],
+#                           LEXICON_RU['Cry'],
+#                           LEXICON_RU['Happy']]))
+#async def process_no_answer(message: Message):
+#    await message.answer_animation(get_random_anime())
 
 @router.message(Command(commands='gamehelp'))
 async def process_help_command(message: Message):

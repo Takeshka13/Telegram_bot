@@ -6,6 +6,7 @@ from lexicon.lexicon_ru import LEXICON_RU
 API_URL = 'https://api.telegram.org/bot'
 API_CATS_URL = 'https://api.thecatapi.com/v1/images/search'
 API_FOX_URL = 'https://randomfox.ca/floof/'
+API_ANIME_URL = 'https://api.otakugifs.xyz/gif?reaction=laugh&format=gif'
 ERROR_CAT = 'https://i.imgur.com/Wl7vgem.png'
 ERROR_FOX = 'https://i.imgur.com/8yvMlsw.png'
 
@@ -34,6 +35,19 @@ def get_random_fox():
         bad_fox_response = requests.get(ERROR_FOX)
         bad_fox_link = bad_fox_response.json()[0]['scr']
         return bad_fox_link
+
+def get_random_anime():
+    anime_response: requests.Response
+    anime_link: str
+
+    anime_response = requests.get(API_ANIME_URL)
+    if anime_response.status_code == 200:
+        anime_link = anime_response.json()['url']
+        return anime_link
+    else:
+        bad_anime_response = requests.get(ERROR_FOX)
+        bad_anime_link = bad_anime_response.json()[0]['scr']
+        return bad_anime_link
 
 
 def get_bot_choice() -> str:
